@@ -35,7 +35,7 @@ Install the latest version of Node from <https://nodejs.org/en/download/>
 Sails
 -----
 
-This is the framework upon which the Chromis for Node server is based. You can read about it here: <http://sailsjs.org> but for now install it globally using npm:
+This is the framework upon which the Chromis server is based. You can read about it here: <http://sailsjs.org> but for now install it globally using npm:
 
 **npm install sails –g**
 
@@ -123,77 +123,21 @@ Cloning the repos
 
 At the time of writing there are four repos on Github of interest.
 
-1.  The **Chromis for Node** server repo: <https://github.com/kpturner/chromis.git>
+1.  The **Chromis** server repo: <https://github.com/kpturner/chromis.git>
 
-2.  The **Chromis for Node Migration** repo: <https://github.com/kpturner/chromis-mig.git>
+2.  The **Chromis Migration** repo: <https://github.com/kpturner/chromis-mig.git>
 
-3.  The **Chromis for Node Models** repo: <https://github.com/kpturner/chromis-models.git>
+3.  The **Chromis Models** repo: <https://github.com/kpturner/chromis-models.git>
 
 They are private, so you need to be granted access by the owner (me).
- 
 
-Why are these all separate? Well Chromis for Node is an application in its own right, but needs to make use of the **Chromis for Node Models** repo and the **Chromis client assets** repo. The **Chromis for Node Models** repo is also used by the **Chromis for Node Migration** application, and the **Chromis client assets** is also used by the **Chromis for RPG application**. So every multi-homed repo is managed as a separate entity. This has advantages and disadvantages, but that is the way it is for now.
+Why are these all separate? Well Chromisis an application in its own right, but needs to make use of the **ChromisModels** repo and the **RNS client assets** repo. The **ChromisModels** repo is also used by the **ChromisMigration** application, and the **RNS client assets** is also used by the **RNS for RPG application**. So every multi-homed repo is managed as a separate entity. This has advantages and disadvantages, but that is the way it is for now.
 
-### Chromis for Node
+### Chromis
 
-Clone the Chromis for Node repo onto your local machine (I used **c:\\users\\&lt;user&gt;\\repos\\chromis** as the home for this).
+Clone the Chromis repo onto your local machine (I used **c:\\users\\&lt;user&gt;\\repos\\chromis** as the home for this).
 
-Then clone the **Chromis client assets** repo from Bonobo into a directory called **c:\\users\\&lt;user&gt;\\repos\\chromis\\assets**.
-
-Then clone the **Chromis for Node Models** repo into a directory **c:\\users\\&lt;user&gt;\\repos\\chromis\\api\\models\\framework\\models **
-
-You should now be able to open the **c:\\users\\&lt;user&gt;\\repos\\chromis** with Visual Studio Code and see this sort of structure:
-<img src="readme_media/media/image1.png" width="231" height="707" />
-
-If you now open a command prompt (or powershell) and navigate to the **c:\\users\\&lt;user&gt;\\repos\\chromis** you can complete the set up process by running: **npm install**
-
-### Chromis for Node Migration
-
-I have written this application purely to facilitate the migration of (relevant) data from the IBMi database to the PostgreSQL database(s). It isn’t finished. It is a working project that I add to as and when I want to migrate another table. The first thing to do (and I already have) is to get all the existing data in JSON format ready for import/staging/migration).
-
-If you look on the ChromisDEV server you can see a directory in the IFS called **chr-migration**. In here is a subdirectory called **data** that contains a .js file for each table in the Framework – each file simply containing a JSON of all the data within that file. Along with the **data** subdirectory, there is are also files named after tables that contain the model (schema) definition for those tables as they would be defined in the Chromis for Node system. Needless to say I did not create all this stuff manually. You can generate it all at any time using the MIGSCHEMA command in chromis:
-<img src="readme_media/media/image2.png" width="601" height="143" />
-
-I did this for both the Chromis library and the CHRDTA library.
-
-There is also a NetServer shared called ChromisMIGRATION that points to this directory, and you need to be able to access that from your PC: [\\\\Chromisdev\\ChromisMIGRATION] (Note: people always have issues with this and it is usually because their netserver user id has been disabled or they are using the wrong credentials. See help from IT services if you are clueless about this).
-
-Anyway, enough of the prelims, go ahead and clone the **Chromis for Node Migration** repo into your favourite location. I used **c:\\users\\&lt;user&gt;\\repos\\chromis-mig**.
-
-In the same way as you did previously, clone the **Chromis for Node Models** repo into **c:\\users\\&lt;user&gt;\\repos\\chromis-mig\\api\\models\\framework\\models**
-
-So now we have a copy of the repo in two places. You may prefer to have it in one place and use some sort of symbolic link – good luck with that – I can’t be bothered. If you use my approach, you have to remember that changes you make in one have to be committed and pushed so that they can be pulled in the other – same thing applies to the assets folder, since the assets are shared with the Chromis for RPG server also.
-
-If you now open a command prompt (or powershell) and navigate to the **c:\\users\\&lt;user&gt;\\repos\\chromis-mig** you can complete the set up process by running: **npm install**
-
-Finally, drag the contents of [\\\\Chromisdev\\ChromisMIGRATION] into a directory called **c:\\users\\&lt;user&gt;\\repos\\chromis-mig\\chr-migration**
-
-You are now ready to migrate data to PostgreSQL…..but first:
-
-Database(s)
------------
-
-Set up your empty database in PostgreSQL. You can have multiple databases (like you can have multiple environments on the IBMi) but for the sake of simplicity we will just set up one called **chrdta** and make sure that a user called **chromis** is authorised to fiddle with it. In addition, we need a database for the tables that live in the program library on the IBMi – this will simply be called **Chromis**. Both databases also need a migration database that is used to stage data between the old IBMi format and the new model/schema format. Therefore, in total, we need 4 as a minimum:
-
--   Chromis
-
--   Chromismig
-
--   chrdta
-
--   chrdtamig
-
-You should have a new application installed called **PGAdminIII**. Spin that up…..
-
-<img src="readme_media/media/image3.png" width="601" height="445" />
-
-Double click on the first (only) server in the tree.
-
-Right click on “Login Roles” and create a new user called **chromis** with a password of **Hercule2**. Make sure it is has “super” privileges to avoid annoying permission issues:
-
-<img src="readme_media/media/image4.png" width="601" height="412" />
-
-Back to the main pane, right click on “Databases” and create the four new databases mentioned above.
+The assets folder would be populated with your UI assets.
 
 Some basics about a Sails.js application
 ========================================
@@ -211,52 +155,16 @@ If you want to delve deeper: <http://sailsjs.org/documentation/anatomy/my-app>
 Migrating the data
 ==================
 
-The very first time we try to run this migration we want two things to happen:
+**TODO**
 
-1.  We want staging to take place. Staging is where the raw data from the /chr-migration folder (remember it is all held in chr-migration/data in individual .js files) is imported into a table of the equivalent name in the appropriate **xxxmig** database. For example, XUSER from CHRDTA will be stored in a table called **xuser\_mig** in a database called **chrdtamig**.
+Running the Chromis server 
+===========================
 
-2.  We want any models we have (new or changed) to have those changes reflected in the database – otherwise we won’t have anything to store the data in
-
-On subsequent runs (let’s say we have fixed a migration bug in the code) we may not want either of things to take place, since they are time consuming. We would only want 1) to happen again if we have pulled more/different data from the IBMi using MIGSCHEMA. We would only want 2) to take place if we have added or changed any of the tables we want to migrate. The latter is more common than the former.
-
-We can influence both options in the aforementioned /config/local.js file.
-
-If you navigate to the **c:\\users\\&lt;user&gt;\\repos\\chromis-mig** directory in windows explorer you can right-click and take the “Open with code” option. When it is loaded up, you can edit /config/local.js
-
-The names of the options etc can be confusing because they are meaningful to sails, but suffice to say if you want 1) Staging to take place (and you do first time in) and you want 2) model migration to take place you should set the values like this:
-
-<img src="readme_media/media/image5.png" width="601" height="334" />
-
-After the first run you should reset these values to **‘safe’** and **false**.
-
-***NOTE: You may have to run the migration more than once if you find that there is no data in XUROLE. You usually only notice when you log in to Chromis and find you have no functions or widgets.***
-
-For information, the main configuration regarding migration – i.e. how data is mapped from the old to the new tables – is stored in **/config/map.js** In the words of the Firefox developers. “here be dragons!”
-
-So now on to running a migration so we have some data to use.
-
-Click this button to get into debug mode. This is where we can launch the application:
-
-<img src="readme_media/media/image6.png" width="352" height="262" />
-
-Once here, you can fire things up by clicking here:
-
-<img src="readme_media/media/image7.png" width="342" height="243" />
-
-At first it will whinge at you because it won’t know what launch config to use. It will prompt you to select one, so choose node.js and accept the default settings for this.
-
-Now the application will start and you will see the console messages popping up. Eventually, all being well, it should look like this (or something similarly reassuring):
-
-<img src="readme_media/media/image8.png" width="601" height="199" />
-
-Running the Chromis for Node server 
-================================
-
-We should load up the Chromis for Node application in VS Code in the same way we did for the migration app, so navigate to the **c:\\users\\&lt;user&gt;\\repos\\chromis** directory in windows explorer you can right-click and take the “Open with code” option. When it is loaded up, you can edit /config/local.js (assuming you have copied the /config/local.example file previously).
+We should load up the Chromis application in VS Code in the same way we did for the migration app, so navigate to the **c:\\users\\&lt;user&gt;\\repos\\rns-node** directory in windows explorer you can right-click and take the “Open with code” option. When it is loaded up, you can edit /config/local.js (assuming you have copied the /config/local.example file previously).
 
 Let’s have a look at that and explain some of the options that you need to know about to start with:
 
-<img src="readme_media/media/image9.png" width="601" height="357" />
+<img src="readme_media/media/image1.png" width="601" height="426" />
 
 The following table details some additional start up parameters that may be of interest.
 
@@ -266,35 +174,9 @@ The following table details some additional start up parameters that may be of i
 
 The “migrateConfig” option is interesting because further down the config file you can see a definition for each environment and within that you can specify data for config files that you want populated in the database – so here we are setting up the queues we want (same as back-end server queues on the RPG server):
 
-<img src="readme_media/media/image10.png" width="580" height="593" />
+<img src="readme_media/media/image2.png" width="575" height="633" />
 
 You can do the same with any table if you want your local instance to have specific data (as opposed to the stuff obtained via a migration).
-
-Next thing: create a settings.xml file in the /assets folder that looks like this:
-
-<img src="readme_media/media/image11.png" width="462" height="306" />
-
-For copy-n-paste purposes:
-
-&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
-
-&lt;!--
-
-Chromis initialisation configuration options
-
---&gt;
-
-&lt;settings&gt;
-
-&lt;servertype&gt;node&lt;/servertype&gt;
-
-&lt;serverendpoint&gt;node.server&lt;/serverendpoint&gt;
-
-&lt;cacherml&gt;true&lt;/cacherml&gt;
-
-&lt;allowchangeserver&gt;false&lt;/allowchangeserver&gt;
-
-&lt;/settings&gt;
 
 What runs when I start it up?
 -----------------------------
@@ -321,7 +203,7 @@ When the server is started you run it locally – for example: <http://localhost
 
 ### Server Manager
 
-A server manager process will start for each environment that you have defined. Think of this as the equivalent of the back-end server manager for an RPG Chromis environment. If you are in debug mode, then debugging will be available by attaching to the debug port you defined for the environment in the config. In our example “chrdta” uses port 6000 for debugging. For each environment you define, keep the debug port at least 1000 apart (so the next one would be 7000). This is just a convention, but the reason will become clear.
+A server manager process will start for each environment that you have defined. Think of this as the equivalent of the back-end server manager for an RPG RNS environment. If you are in debug mode, then debugging will be available by attaching to the debug port you defined for the environment in the config. In our example “rnsdta” uses port 6000 for debugging. For each environment you define, keep the debug port at least 1000 apart (so the next one would be 7000). This is just a convention, but the reason will become clear.
 
 ### One or many back-end servers for each queue defined
 
@@ -332,7 +214,7 @@ As with the RPG server, debugging is easier if you configure your local setup to
 Starting and debugging
 ----------------------
 
-The normal way to start the server is exactly the same way as was defined previously to start the migration server. This will start up the main server, and you can use the built in debug facilities in Visual Studio Code to set break points etc. If you want to use Visual Studio Code to debug a back-end server instead of the main server, then you can start the main server from a command line. Navigate to **c:\\users\\&lt;user&gt;\\repos\\chromis** and run
+The normal way to start the server is exactly the same way as was defined previously to start the migration server. This will start up the main server, and you can use the built in debug facilities in Visual Studio Code to set break points etc. If you want to use Visual Studio Code to debug a back-end server instead of the main server, then you can start the main server from a command line. Navigate to **c:\\users\\&lt;user&gt;\\repos\\rns-node** and run
 
 **npm install** *(only needed the first time you go to start it)*
 
@@ -347,18 +229,18 @@ or even
 **node --debug app.js --silly**
 
 When it starts you will see the server managers start (and listen on a debugging port) and the back-server(s) starting and listening on a port. So to debug them we need to tell Visual Studio Code to “Attach” to a port as opposed to the default “Launch”. There is a **launch.example** file in the root which can be copied into a directory called **.vscode** and renamed to **launch.json** – OR we need to configure VS Code to understand what we want to do when we attach. Click here:
-<img src="readme_media/media/image12.png" width="333" height="199" />
+<img src="readme_media/media/image3.png" width="333" height="199" />
 
 The launch.json will appear in the editor (you may have to select node.js as the execution environment first). We then configure some “Attach” settings for debug ports we want to attach to:
-<img src="readme_media/media/image13.png" width="448" height="647" />
+<img src="readme_media/media/image4.png" width="448" height="647" />
 
-Now, with the server running in your command window, you can attach to, and debug, the other processes from within VS Code. You can use the drop down box to switch from “Launch” to your preferred “Attach” config and start the start button <img src="readme_media/media/image14.png" width="25" height="23" /> :
+Now, with the server running in your command window, you can attach to, and debug, the other processes from within VS Code. You can use the drop down box to switch from “Launch” to your preferred “Attach” config and start the start button <img src="readme_media/media/image5.png" width="25" height="23" /> :
 
-<img src="readme_media/media/image15.png" width="333" height="232" />
+<img src="readme_media/media/image6.png" width="333" height="232" />
 
 Breakpoints can be added/removed from code simply by clicking in the left margin:
 
-<img src="readme_media/media/image16.png" width="547" height="245" />
+<img src="readme_media/media/image7.png" width="547" height="245" />
 
 Anatomy – where do my functions live?
 =====================================
@@ -386,7 +268,7 @@ How to run in Production Mode
 How do I apply hotfixes (or cachebust)
 ======================================
 
-As mentioned previously, if you are running the development mode then your back-end functions get reloaded every time, but what if you are running in production mode or you make changes to other areas of the Framework? In the RPG world we had ChromisHOTFIX and/or CACHEBUST but that was confusing for some. Now you can just do one of two things from a command prompt (once you have navigated to the application directory):
+As mentioned previously, if you are running the development mode then your back-end functions get reloaded every time, but what if you are running in production mode or you make changes to other areas of the Framework? In the RPG world we had RNSHOTFIX and/or CACHEBUST but that was confusing for some. Now you can just do one of two things from a command prompt (once you have navigated to the application directory):
 
 **node hotfix.js** (fixed get picked up when the user next logs on)
 
@@ -402,7 +284,8 @@ As well as being generated at startup, you may regenerate the docs at any time b
 Your PC may not know how to run shell scripts, but it should prompt you and you can select the Git Bash option available from a previous install of Git for Windows. As a personal preference, I like to associate the .sh extension with **c:\\program files\\git\\bin.sh.exe** as stdout etc seems to then appear in the same window.
 
 If you get fed up with generating the docs every time you start the server, you can switch it off in /config/local.js:
-<img src="readme_media/media/image17.png" width="505" height="348" />
+
+<img src="readme_media/media/image8.png" width="482" height="214" />
 
 Notes on creating the readme.md markdown file for github
 ========================================================
@@ -413,5 +296,3 @@ To do this, make sure you have a tool called pandoc installed: <http://pandoc.or
 Then navigate to the “events” project directory that contains readme.docx and run this command:
 
 ***createreadme.sh***
-
-  [\\\\Chromisdev\\ChromisMIGRATION]: file:///\\Chromisdev\ChromisMIGRATION
