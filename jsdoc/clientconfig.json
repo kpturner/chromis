@@ -1,0 +1,9 @@
+{
+	"templates": {
+    	"baseline": "../chromis/jsdoc/baseline.json"    	
+  	},
+    "source": {
+    	"excludePattern": "rns5.js",
+        "exclude": ["assets/res/framework/functions"]
+    }
+}

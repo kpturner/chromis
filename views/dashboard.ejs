@@ -1,0 +1,238 @@
+<!-- Dashboard homepage --> 
+
+<!-- ***** BEGIN LICENCE BLOCK *****
+   - Version: MPL 1.1
+   -
+   - The contents of this file are subject to the Mozilla Public Licence Version
+   - 1.1 (the "Licence"); you may not use this file except in compliance with
+   - the Licence. You may obtain a copy of the Licence at
+   - http://www.mozilla.org/MPL/
+
+   - Software distributed under the Licence is distributed on an "AS IS" basis,
+   - WITHOUT WARRANTY OF ANY KIND, either express or implied. See the Licence
+   - for the specific language governing rights and limitations under the
+   - Licence.
+   -
+   - The Original Code is "Chromis Framework: http://www.kpturner.co.uk".
+   -
+   - The Initial Developer of the Original Code is Kevin Turner Systems Ltd: http://www.Kevin Turner.co.uk.
+   - Portions created by Kevin Turner Systems Ltd" are Copyright (c) 2017 K P Turner Ltd.
+   - All Rights Reserved.
+   -
+   -   Contributor(s):
+   -
+   - ***** END LICENCE BLOCK ***** 
+
+     Modification Log
+  -  ================
+  -  Inits  Date    Modification
+  -  =====  ====    ============
+
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chromis Websocket Dashboard</title>
+    
+    <!--[if IE]>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<![endif]-->
+	<meta http-equiv="Expires" content="0"/>
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta http-equiv="Pragma" content="no-cache"/>	
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link rel="icon" 
+      type="image/png" 
+      href="/rns/favicon.ico" />
+    
+    <!--  
+        Stylesheets and Preprocessors
+        ==============================
+
+        You can always bring in CSS files manually with `<link>` tags, or asynchronously
+        using a solution like AMD (RequireJS).  Or, if you like, you can take advantage 
+        of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+        By default, stylesheets from your `assets/styles` folder are included
+        here automatically (between STYLES and STYLES END). Both CSS (.css) and LESS (.less)
+        are supported. In production, your styles will be minified and concatenated into
+        a single file.
+        
+        To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+        For example, here are a few things you could do:
+            
+            + Change the order of your CSS files
+            + Import stylesheets from other directories
+            + Use a different or additional preprocessor, like SASS, SCSS or Stylus
+    -->
+    <link rel="stylesheet" href="/rns/css/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="/rns/css/main.css">
+	<style>
+        .jumbotron {
+            text-align: center;
+            margin-top: 100px;
+            padding: 30px 15px;
+            margin-bottom: 30px;
+            color: inherit;
+            background-color: #eee;
+            }
+            .jumbotron h1,
+            .jumbotron .h1 {
+            color: inherit;
+            }
+            .jumbotron p {
+            margin-bottom: 15px;
+            font-size: 21px;
+            font-weight: 200;
+            }
+            .jumbotron > hr {
+            border-top-color: #d5d5d5;
+            }
+            .container .jumbotron,
+            .container-fluid .jumbotron {
+            border-radius: 6px;
+            }
+            .jumbotron .container {
+            max-width: 100%;
+            }
+            @media screen and (min-width: 768px) {
+            .jumbotron {
+                padding: 48px 0;
+            }
+            .container .jumbotron,
+            .container-fluid .jumbotron {
+                padding-right: 60px;
+                padding-left: 60px;
+            }
+            .jumbotron h1,
+            .jumbotron .h1 {
+                font-size: 63px;
+            }
+        } 
+
+        .jumbotron h2 {
+            font-size: 1.5em;
+            letter-spacing: -1px;
+            /*margin-bottom: 30px;*/
+            text-align: center;
+            font-weight: normal;
+            color: gray;
+        }
+
+        .feeds {
+            width: 50%;
+        }
+
+
+        /*This is one way to get ng-cloak to work without having to put angular.js loaded at the top of the page.
+        Without this angular would not be loaded yet, so it won't recognize ng-cloak.  This is the css that angular
+        will ultimately load to make the ng-cloak display none until $compile thing runs. */
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+        display: none !important;
+        }
+
+    </style>
+  </head>
+
+  <body>
+ 
+<div ng-app="AppModule" ng-cloak ng-controller="AppController">
+
+	<div id="chr-main-container" class="chr-main-container">
+		
+		<img id="chr-background-logo" src="/rns/img/chromis-header.png"/>
+					
+		<div id="main" class="ui-widget-content">
+		
+		
+			<div class=" col-md-8 col-md-offset-2">
+			
+		      <div class="jumbotron">
+		        <h1>Server Statistics</h1>
+		        
+		        	<h2>Status:             {{status}}</h2>
+		        	<h2>Connected clients:  {{stats.totalClients}}</h2>
+		            <h2>Connected sockets:  {{stats.totalSockets}}</h2>
+			        <h2>Total updates:      {{stats.totalUpdates}}</h2>
+			        <h2>Updates per second: {{stats.updatesPerSecond}}</h2>
+			        <h2>Feeds:</h2>
+			        <textarea type="text" class="feeds" name="feeds" ng-model="feedDta" rows="8"></textarea> 
+		      </div>
+		    </div>
+		
+		
+		</div>
+		
+		
+	</div>
+	
+	<div id="chr-tooltips">
+		<div class="chr-errortooltip"></div>
+	</div>
+
+
+</div>
+
+   <!--
+        Client-side Templates
+        ========================
+
+        HTML templates are important prerequisites of modern, rich client applications.
+        To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
+        that you load these templates client-side.
+
+        By default, your Gruntfile is configured to automatically load and precompile
+        client-side JST templates in your `assets/templates` folder, then
+        include them here automatically (between TEMPLATES and TEMPLATES END).
+        
+        To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
+        For example, here are a few things you could do:
+
+            + Import templates from other directories
+            + Use a different template engine (handlebars, jade, dust, etc.)
+            + Internationalize your client-side templates using a server-side
+              stringfile before they're served.
+    -->
+
+    <!--TEMPLATES-->
+    
+    <!--TEMPLATES END-->
+
+
+    <!--
+
+      Client-side Javascript
+      ========================
+
+      You can always bring in JS files manually with `script` tags, or asynchronously
+      on the client using a solution like AMD (RequireJS).  Or, if you like, you can 
+      take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
+
+      By default, files in your `assets/js` folder are included here
+      automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
+      CoffeeScript (.coffee) are supported. In production, your scripts will be minified
+      and concatenated into a single file.
+      
+      To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+      For example, here are a few things you could do:
+          
+          + Change the order of your scripts
+          + Import scripts from other directories
+          + Use a different preprocessor, like TypeScript
+
+    -->
+
+     
+    <script src="/rns/js/jquery/jquery.min.js"></script>
+    <script src="/rns/js/plugins/ui/jquery-ui.custom.min.js"></script>
+    <script src="/rns/js/sails/socket.io.js"></script>
+    <script src="/rns/js/sails/sails.io.js"></script>
+    <script src="/rns/js/plugins/ui/angular/angular.js"></script>    
+   	<script src="/rns/js/plugins/ui/angular/appmodule.js"></script> 
+   	<script src="/rns/js/plugins/ui/angular/appcontroller.js"></script> 
+  </body>
+</html>

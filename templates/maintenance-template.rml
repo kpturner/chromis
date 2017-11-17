@@ -1,0 +1,81 @@
+<!--****** BEGIN LICENCE BLOCK ***********************/                  
+/* The initial developer of the code is Kevin Turner   */ 
+/* kpturner.co.uk     */ 
+/*                                                   */
+/* Portions created by Kevin Turner Systems Ltd" are   */
+/* Copyright (c) 2017 K P Turner Ltd.    */
+/* All Rights Reserved.                              */
+/***** END LICENCE BLOCK *****************************/     
+
+/**           
+ *   @Module        #NAME#                                                         
+ *   @Description   #DESC#                     
+ *   @Author        #USERNAME#                                             
+ *   @Date          #CREATEDATE#                                                      
+ */
+                                                                                    
+/********************************************************************           
+/*                                                                                    
+/*  Modification log                                                                  
+/*  ================                                                                  
+/*                                                                                    
+/*  Inits  Date    Modification                                                       
+/*  =====  ====    ============                                                       
+/*                               
+/*****************************************************************-->     
+
+<chr-function context="#NAME#" type="modal"   
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="http://rns.Kevin Turnersystems.com/xsd/rns.xsd">
+	
+	<!-- ======== This section of code shows how to manage a lock for CRUD functions ======================= -->
+	<!-- Expression to determine if a lock is required before allowing the data to be edited -->	
+	<chr-expression var="lockrequired" eval="mode=='update' || mode=='delete'"></chr-expression>	
+	
+	<!-- Obtain a lock -->
+	<chr-lock entity="#FNAME#" entitykey="/%#FNAME.PKEY#%/" lockalias="lockobtained" enabled="/%lockrequired%/"></chr-lock>
+	
+	<!-- Make sure "lockobtained" is set to false if we didn't ever required one. Use new syntax. -->
+	<chr-expression result="lockobtained" eval="(lockrequired)?lockobtained:false"></chr-expression>	
+		
+	<!-- ================================================================================================== -->
+
+			
+	<!-- fields only editable if we are in update/delete mode AND we have a lock -->	
+	<chr-expression var="deletemode" eval="mode=='delete'"></chr-expression>
+	<chr-expression var="deletedisplaymode" eval="mode=='delete' || mode=='display'"></chr-expression>	
+	<chr-expression var="createcopymode" eval="mode=='create' || mode=='copy'"></chr-expression>	
+	<chr-expression var="dftbutton" eval="(mode=='delete')?'delete':'save'"></chr-expression>	
+			
+	<!-- fields only editable if we are in update/delete mode AND we have a lock -->	
+	<chr-expression var="editable"  
+		eval="((mode=='update' && lockobtained===true)?true:
+				(mode=='delete' && lockobtained===true)?false:
+					(mode=='copy')?true:
+						(mode=='create')?true:false)"
+	></chr-expression>	
+			
+	<!-- Description of mode -->
+	<chr-expression
+		var="modedescription"
+		eval="RNS.PR.txt('','c',var1)"
+		var1="/%mode%/"	
+	></chr-expression>	
+	
+	<chr-basicbox title="/%modedescription%/">
+		<chr-inputsection labelsize="6" button="/%dftbutton%/">
+			#FIELDS#
+		</chr-inputsection>		
+	</chr-basicbox>	
+	
+	<chr-button pr="{{pr 'save' 'B'}}" ref="save" hidden="/%deletedisplaymode%/"></chr-button>
+	<chr-button pr="{{pr 'delete' 'B'}}" ref="delete" visible="/%deletemode%/"></chr-button>
+	<chr-button pr="{{pr 'cancel' 'B'}}" ref="cancel" ></chr-button>
+	
+	<chr-action type="sendmodel" action="SET" trigger="click" elem="save"></chr-action>
+	<chr-action type="sendmodel" action="SET" trigger="click" elem="delete"></chr-action>
+	<chr-action type="navigate" to="*caller" trigger="sendmodelsuccess" action="SET"></chr-action>	
+	<chr-action type="navigate" to="*caller" trigger="modelchange" var="massdelete" oper="==" value="true"></chr-action>	
+	<chr-action type="closemodal" trigger="click" elem="cancel"></chr-action>	 
+
+</chr-function>

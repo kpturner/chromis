@@ -1,0 +1,13 @@
+{
+  
+    "hooks": {
+         // Disable grunt for the time being. See explanation in config/paths.js
+        "grunt":false,
+        // Disable sessions in favour of JWT. We will use the sails.config.session.secret for JWT
+        "session":false
+    }, 
+  
+    "generators": {
+        "modules": {}
+    }
+}

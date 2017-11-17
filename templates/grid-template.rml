@@ -1,0 +1,103 @@
+<!--****** BEGIN LICENCE BLOCK ***********************/                  
+/* The initial developer of the code is Kevin Turner   */ 
+/* kpturner.co.uk     */ 
+/*                                                   */
+/* Portions created by Kevin Turner Systems Ltd" are   */
+/* Copyright (c) 2017 K P Turner Ltd.    */
+/* All Rights Reserved.                              */
+/***** END LICENCE BLOCK *****************************/     
+
+/**           
+ *   @Module        #NAME#                                                         
+ *   @Description   #DESC#                     
+ *   @Author        #USERNAME#                                             
+ *   @Date          #CREATEDATE#                                                      
+ */
+                                                                                    
+/********************************************************************           
+/*                                                                                    
+/*  Modification log                                                                  
+/*  ================                                                                  
+/*                                                                                    
+/*  Inits  Date    Modification                                                       
+/*  =====  ====    ============                                                       
+/*                               
+/*****************************************************************-->     
+
+<chr-function context="#NAME#"
+		      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		      xsi:noNamespaceSchemaLocation="http://chromis.kpturner.co.uk/xsd/chromis.xsd">
+              
+              
+    <chr-datagrid ref="#FNAME#Grid"
+                  doubleclick="edtBtn"
+                  pr="{{pr '#FNAME#s' 'C'}}"
+                  contextmenu="#FNAME#Menu"
+                  page="/%page%/" rows="/%rows%/" data="/%#FNAME#%/" startrow="/%startrow%/" 
+                  dataid="#PKEY#" 
+                  initaction="initgrid" 
+                  selected="/%selectedkey%/"                         
+                  multiselect="true"
+                  filters="/%filters%/"
+                  sortby="/%sortby%/"
+				  sortorder="/%sortorder%/">
+                  
+        <chr-datagrid-dateformatter  ref="fullDateTimeFormatter" srcformat="timestamp" newformat="FullDateTime"></chr-datagrid-dateformatter>
+                    
+                    
+        #COLUMNS#
+        
+        
+        <!-- Default buttons -->
+        <chr-datagrid-button ref="editBtn"    pr="{{pr 'EDIT'    'B'}}"></chr-datagrid-button>   
+        <chr-datagrid-button ref="displayBtn" pr="{{pr 'DISPLAY' 'B'}}"></chr-datagrid-button>   
+        <chr-datagrid-button ref="copyBtn"    pr="{{pr 'COPY'    'B'}}"></chr-datagrid-button>   
+        <chr-datagrid-button ref="deleteBtn"  pr="{{pr 'DELETE'  'B'}}" multirowenabled="true"></chr-datagrid-button>   
+        <chr-datagrid-button ref="createBtn"  pr="{{pr 'CREATE'  'B'}}" norowenabled="true"></chr-datagrid-button> 
+		
+    </chr-datagrid>
+    
+    <chr-contextmenu ref="#FNAME#Menu">
+		<!-- Context menu options will be bound to a button whose name matches the "elem" attribute of the component. -->
+		<!-- If no "elem" attribute exists, then it will default to a button whose name matches the "ref" attribute.  -->
+		<chr-contextmenuoption ref="editBtn"    pr="{{pr 'EDIT'    'B'}}"></chr-contextmenuoption>
+		<chr-contextmenuoption ref="displayBtn" pr="{{pr 'DISPLAY' 'B'}}"></chr-contextmenuoption>
+		<chr-contextmenuoption ref="copyBtn"    pr="{{pr 'COPY'    'B'}}"></chr-contextmenuoption>
+		<chr-contextmenuoption ref="deleteBtn"  pr="{{pr 'DELETE'  'B'}}"></chr-contextmenuoption>
+		<chr-contextmenuoption ref="funcsBtn"   pr="{{pr 'FUNCS'  'B'}}"></chr-contextmenuoption>
+	</chr-contextmenu>
+        
+    <chr-actiongroup trigger="click" elem="editBtn">
+        <chr-action type="setmodelvalue" var="maintainmode" value="edit"></chr-action>   
+        <chr-action type="navigate" navigation="maintainNav"></chr-action> 
+    </chr-actiongroup>    
+    <chr-actiongroup trigger="click" elem="displayBtn">
+        <chr-action type="setmodelvalue" var="maintainmode" value="display"></chr-action>   
+        <chr-action type="navigate" navigation="maintainNav"></chr-action> 
+    </chr-actiongroup>    
+    <chr-actiongroup trigger="click" elem="copyBtn">
+        <chr-action type="setmodelvalue" var="maintainmode" value="copy"></chr-action>   
+        <chr-action type="navigate" navigation="maintainNav"></chr-action> 
+    </chr-actiongroup>
+    <chr-actiongroup trigger="click" elem="deleteBtn">
+        <chr-action type="setmodelvalue" var="maintainmode" value="delete"></chr-action>   
+        <chr-action type="navigate" navigation="maintainNav"></chr-action> 
+    </chr-actiongroup>
+    <chr-actiongroup trigger="click" elem="createBtn">
+        <chr-action type="setmodelvalue" var="maintainmode" value="create"></chr-action>   
+        <chr-action type="navigate" navigation="maintainNav"></chr-action> 
+    </chr-actiongroup>
+
+    <chr-navigation ref="maintainNav" to="xm0004">
+        <chr-param name="#FNAME#" value="/%selected#FNAME#%/"></chr-param>
+        <chr-param name="mode" value="/%maintainmode%/"></chr-param>		
+    </chr-navigation>    
+	
+	<chr-action type="navigate" navigation="#FNAME#Nav" trigger="click" elem="#FNAME#Btn"></chr-action>
+	<chr-navigation ref="#FNAME#Nav" to="#MAINTENANCEPGM#">
+    	<chr-param name="modeFilter" value="/%selected#FNAME#%/"></chr-param>
+		<chr-param name="mode" value="#FNAME#"></chr-param>
+	</chr-navigation>
+	
+	
+</chr-function>

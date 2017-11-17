@@ -1,0 +1,1 @@
+pandoc -s readme.docx --wrap=none --reference-links -t markdown_github --extract-media=readme_media -o readme.md

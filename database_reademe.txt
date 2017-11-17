@@ -1,0 +1,7 @@
+For config data and sessions we are using "redis". Instructions for Windows are in 
+windows_reade.txt.
+
+For other tables we are using Postgres (on Windows we are also using pgAdminIII for admin stuff).
+With this tool you can create users (login roles) so for RNS we created 
+a user of "chromis" with a password of "Hercule2".  These are used as defaults in the 
+connections config. 

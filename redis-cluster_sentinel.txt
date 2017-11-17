@@ -1,0 +1,21 @@
+A braindump of things to think about when we want to use a clustered or sentinel redis environment
+
+http://stackoverflow.com/questions/31143072/redis-sentinel-vs-clustering
+
+Redis cluster tutorial:  http://redis.io/topics/cluster-tutorial
+
+Sockets (socket-io.redis) config:  https://github.com/GannettDigital/socket.io-ioredis/issues/8
+        Sentinels: https://github.com/stoshiya/socket.io-redis-sentinel-sample
+
+Sessions (sails): https://github.com/tj/connect-redis/issues/176
+
+Waterline: https://github.com/balderdashy/sails-redis/issues/97
+or https://github.com/invertase/sails-ioredis/issues
+
+BusMQ: https://github.com/capriza/node-busmq/issues/35
+
+redis-sessions: https://github.com/smrchy/redis-sessions/issues/27
+
+
+
+ 

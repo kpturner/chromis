@@ -1,0 +1,8 @@
+{
+	"templates": {
+    	"baseline": "../chromis/jsdoc/baseline.json"    	
+	},
+	"source": {
+    	 "exclude": ["api/models","api/processes", "api/responses"]
+  }
+}
